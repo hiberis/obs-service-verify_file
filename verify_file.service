@@ -1,5 +1,5 @@
 <service name="verify_file">
-  <summary>Verifies a file</summary>
+  <summary>Verify a file</summary>
   <description>The service verfies a file against a given checksum to detect file changes.</description>
   <parameter name="verifier">
     <description>Used Verification</description>
