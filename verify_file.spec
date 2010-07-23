@@ -6,6 +6,7 @@ Summary:        An OBS source service: file verification
 Version:        0.1
 Release:        1
 Source:         verify_file
+Source1:        verify_file.service
 Requires:       coreutils
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
@@ -23,6 +24,7 @@ It allows to verify a file with a given sha256sum
 %install
 mkdir -p $RPM_BUILD_ROOT/usr/lib/obs/service
 install -m 0755 %{SOURCE0} $RPM_BUILD_ROOT/usr/lib/obs/service
+install -m 0644 %{SOURCE1} $RPM_BUILD_ROOT/usr/lib/obs/service
 
 %files
 %defattr(-,root,root)
