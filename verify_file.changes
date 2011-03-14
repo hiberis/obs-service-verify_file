@@ -1,4 +1,12 @@
 -------------------------------------------------------------------
+Sun Mar 13 23:46:17 UTC 2011 - cdengler@novell.com
+
+- version 0.2
+- rewritten in perl
+- add support for verifiers: md5, sha1, sha224, sha256, sha384, sha512 
+- add error handling for (wrong) data input
+
+-------------------------------------------------------------------
 Mon May 17 14:26:35 UTC 2010 - adrian@suse.de
 
 - initial package of version 0.1

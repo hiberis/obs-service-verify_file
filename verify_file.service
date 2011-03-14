@@ -3,8 +3,18 @@
   <description>The service verfies a file against a given checksum to detect file changes.</description>
   <parameter name="verifier">
     <description>Used Verification</description>
-    <allowedvalue>sha256</allowedvalue>
+    <allowedvalue>md5sum</allowedvalue>
+    <allowedvalue>sha1sum</allowedvalue>
+    <allowedvalue>sha224sum</allowedvalue>
+    <allowedvalue>sha256sum</allowedvalue>
+    <allowedvalue>sha384sum</allowedvalue>
+    <allowedvalue>sha512sum</allowedvalue>
     <allowedvalue>md5</allowedvalue>
+    <allowedvalue>sha1</allowedvalue>
+    <allowedvalue>sha224</allowedvalue>
+    <allowedvalue>sha256</allowedvalue>
+    <allowedvalue>sha384</allowedvalue>
+    <allowedvalue>sha512</allowedvalue>
   </parameter>
   <parameter name="checksum">
     <description>Used check sum to compare with</description>

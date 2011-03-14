@@ -1,52 +1,90 @@
-#!/bin/bash
+#!/usr/bin/perl -T
+# 2011 by Christian Dengler <info@christian-dengler.de>
 
-# Verify a given file with given check
-# This could get extended with gpg verification for example.
+# openSUSE Buildservice - service file 
+# Verify the checksum of a given file with the given control checksum
 
-# defaults
-MYVERIFIER="sha256"
-MYSUM=""
-MYFILE=""
 
-while test $# -gt 0; do
-  case $1 in
-    *-verifier)
-      MYVERIFIER="$2"
-      shift
-    ;;
-    *-checksum|*-check-sum)
-      MYSUM="$2"
-      shift
-    ;;
-    *-file)
-      MYFILE="$2"
-      shift
-    ;;
-    *-outdir)
-      MYOUTDIR="$2"
-      shift
-    ;;
-    *)
-      echo Unknown parameter $1.
-      echo 'Usage: verify_file --verifier sha256 --checksum e712bbcbc05a707c32eb70fa4a3b0e13b6f0cc11227ff7e4451401e5a49cc729 --outdir $OUT'
-      echo NOTE: outdir is just a dummy, this service is just for verifing and fails in error case
-      exit 1
-    ;;
-  esac
-  shift
-done
+use strict;
+use warnings;
 
-FILE="${PATH##*/}"
 
-if [ -z "$MYSUM" ]; then
-  echo "ERROR: no checksum given!"
-  exit 1
-fi
-if [ -z "$MYFILE" ]; then
-  echo "ERROR: no file is given via --file parameter!"
-  exit 1
-fi
+# config
+$ENV{PATH} = "/usr/bin:/bin";
+my %opt = (
+            verifier        => 'sha256sum',
+            checksum        => undef,
+            file            => undef,
+            verifiers       => ['md5sum', 'sha1sum', 'sha224sum', 'sha256sum', 'sha384sum', 'sha512sum',
+            			        'md5', 'sha1', 'sha224', 'sha256', 'sha384', 'sha512',
+			                   ],
+          );
 
-filesum=`sha256sum "$MYFILE" | cut -f1 -d\ `
-exec test "$filesum" = "$MYSUM"
+($opt{str_verifiers} = "@{$opt{verifiers}}[0..5]") =~ s/ /|/g;
+
+
+sub check_input {
+    my ($string, $typ) = @_;
+
+    error("Paramter's value is missing") if (! $string);
+    if ($typ eq 'key') {
+        $string =~ /^([\w\-]+)$/;
+        error("Wrong character in parameter (key)") if (! $1);
+        return $1;
+    } elsif ($typ eq 'value') {
+        $string =~ /^([\w\-\/~\.]+)$/;
+        error("Wrong character in parameter (value)") if (! $1);
+        return $1;
+    }
+
+    error("Internal error in $0\n");
+}
+
+sub usage {
+    print "Usage: $0 --verifier $opt{str_verifiers} --checksum \$CHECKSUM --file \$FILE\n";
+    exit 2;
+}
+
+sub error {
+    my ($err) = @_;
+
+    print STDERR "Wrong use of this OBS-service:\n* $err *\n";
+    usage();
+}
+
+
+error('More parameter needed') if ($#ARGV < 3);
+error('Too many parameters') if ($#ARGV > 5);
+
+while (@ARGV) {
+    my $key = shift;
+    my $value = shift;
+
+    # check the input
+    my $k = check_input($key, 'key');
+    my $v = check_input($value, 'value');
+
+    # check if it is a valid option
+    $k =~ s/^--//;
+    error("Unkown parameter") if (! exists $opt{$k});
+
+    # check if it is a valid verifier
+    error("Unknown verifier") if ($k eq 'verifier' && ! grep /^$v$/, @{$opt{verifiers}});
+
+    $opt{$k} = $v;
+}
+error("Missing paramter (file)") if (! $opt{file});
+error("Missing paramter (checksum)") if (! $opt{checksum});
+
+$opt{verifier} .= 'sum' if ($opt{verifier} !~ /sum$/); 
+
+
+my $filesum = `$opt{verifier} "$opt{file}"` || error("Cannot check the checksum");
+my ($checksum) = split /\s+/, $filesum;
+
+my $ret = ($checksum eq $opt{checksum}) ? 0 : 1;
+
+printf "%s\n", ($ret) ? 'FAILED' : 'PASSED';
+
+exit $ret
 
