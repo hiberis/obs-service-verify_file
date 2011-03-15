@@ -15,6 +15,7 @@ my %opt = (
             verifier        => 'sha256sum',
             checksum        => undef,
             file            => undef,
+            outdir          => undef,
             verifiers       => ['md5sum', 'sha1sum', 'sha224sum', 'sha256sum', 'sha384sum', 'sha512sum',
             			        'md5', 'sha1', 'sha224', 'sha256', 'sha384', 'sha512',
 			                   ],
@@ -28,11 +29,11 @@ sub check_input {
 
     error("Paramter's value is missing") if (! $string);
     if ($typ eq 'key') {
-        $string =~ /^([\w\-]+)$/;
+        $string =~ /^([\w\-:]+)$/;
         error("Wrong character in parameter (key)") if (! $1);
         return $1;
     } elsif ($typ eq 'value') {
-        $string =~ /^([\w\-\/~\.]+)$/;
+        $string =~ /^([\w\-\/~\.:]+)$/;
         error("Wrong character in parameter (value)") if (! $1);
         return $1;
     }
@@ -54,7 +55,7 @@ sub error {
 
 
 error('More parameter needed') if ($#ARGV < 3);
-error('Too many parameters') if ($#ARGV > 5);
+#error('Too many parameters') if ($#ARGV > 5);
 
 while (@ARGV) {
     my $key = shift;
