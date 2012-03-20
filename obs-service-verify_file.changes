@@ -1,0 +1,13 @@
+-------------------------------------------------------------------
+Tue Mar 20 10:35:07 UTC 2012 - saschpe@suse.de
+
+- Renamed spec/changes file to OBS package name to please factory-auto review
+- Added spec file license header
+- Set license to SDPX style (GPL-2.0+
+
+-------------------------------------------------------------------
+Mon May 17 14:26:35 UTC 2010 - adrian@suse.de
+
+- initial package of version 0.1
+  sha256sum verification only supported atm
+
