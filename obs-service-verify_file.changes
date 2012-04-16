@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Thu Apr 12 13:01:43 UTC 2012 - saschpe@suse.de
+
+- Change license to MIT (see bnc#753973) and provide a copy of the license text
+
+-------------------------------------------------------------------
 Tue Mar 20 10:35:07 UTC 2012 - saschpe@suse.de
 
 - Renamed spec/changes file to OBS package name to please factory-auto review

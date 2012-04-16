@@ -21,10 +21,11 @@ Version:        0.1
 Release:        0
 Url:            http://build.opensuse.org
 Summary:        An OBS source service: file verification
-License:        GPL-2.0+
+License:        MIT
 Group:          Development/Tools/Building
 Source:         verify_file
 Source1:        verify_file.service
+Source2:        LICENSE.txt
 Requires:       coreutils
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
@@ -36,6 +37,7 @@ It allows to verify a file with a given sha256sum
 
 %prep
 %setup -q -D -T 0 -n .
+cp %{SOURCE2} .
 
 %build
 
@@ -46,6 +48,7 @@ install -m 0644 %{SOURCE1} %{buildroot}%{_prefix}/lib/obs/service
 
 %files
 %defattr(-,root,root)
+%doc LICENSE.txt
 %dir %{_prefix}/lib/obs
 %{_prefix}/lib/obs/service
 
