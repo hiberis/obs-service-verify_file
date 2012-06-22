@@ -27,6 +27,9 @@ Source:         verify_file
 Source1:        verify_file.service
 Source2:        LICENSE.txt
 Requires:       coreutils
+%if 0%{?fedora_version} >= 17
+Requires:       perl-MD5
+%endif
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
 
