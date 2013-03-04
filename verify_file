@@ -47,6 +47,19 @@ if [ -z "$MYFILE" ]; then
   exit 1
 fi
 
-filesum=`sha256sum "$MYFILE" | cut -f1 -d\ `
+case "$MYVERIFIER" in
+  sha256)
+    VERIFEXE='sha256sum'
+    ;;
+  md5)
+    VERIFEXE='md5sum'
+    ;;
+  *)
+    echo "ERROR: unknown \"$MYVERIFIER\" checksum verifier!"
+    exit 1
+    ;;
+esac
+
+filesum=`${VERIFEXE} "$MYFILE" | cut -f1 -d\ `
 exec test "$filesum" = "$MYSUM"
 

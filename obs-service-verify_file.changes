@@ -1,4 +1,9 @@
 -------------------------------------------------------------------
+Fri Mar  1 09:29:28 UTC 2013 - fa0sck@gmail.com
+
+- allow to switch among the provided checksum verifiers 
+
+-------------------------------------------------------------------
 Fri Jun 22 07:11:23 UTC 2012 - Rene.vanPaassen@gmail.com
 
 - added a requirement on perl-MD5 for Fedora 17 
