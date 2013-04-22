@@ -4,6 +4,7 @@
   <parameter name="verifier">
     <description>Used Verification</description>
     <allowedvalue>sha256</allowedvalue>
+    <allowedvalue>sha1</allowedvalue>
     <allowedvalue>md5</allowedvalue>
   </parameter>
   <parameter name="checksum">

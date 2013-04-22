@@ -27,9 +27,9 @@ while test $# -gt 0; do
       shift
     ;;
     *)
-      echo Unknown parameter $1.
-      echo 'Usage: verify_file --verifier sha256 --checksum e712bbcbc05a707c32eb70fa4a3b0e13b6f0cc11227ff7e4451401e5a49cc729 --outdir $OUT'
-      echo NOTE: outdir is just a dummy, this service is just for verifing and fails in error case
+      echo "Unknown parameter $1."
+      echo 'Usage: verify_file --verifier sha256/sha1/md5 --checksum e712bbcbc05a707c32eb70fa4a3b0e13b6f0cc11227ff7e4451401e5a49cc729 --file file_to_verify --outdir $OUT'
+      echo "NOTE: outdir is just a dummy, this service is just for verifing and fails in error case."
       exit 1
     ;;
   esac
@@ -49,10 +49,13 @@ fi
 
 case "$MYVERIFIER" in
   sha256)
-    VERIFEXE='sha256sum'
+    VERIFYEXE='sha256sum'
+    ;;
+  sha1)
+    VERIFYEXE='sha1sum'
     ;;
   md5)
-    VERIFEXE='md5sum'
+    VERIFYEXE='md5sum'
     ;;
   *)
     echo "ERROR: unknown \"$MYVERIFIER\" checksum verifier!"
@@ -60,6 +63,6 @@ case "$MYVERIFIER" in
     ;;
 esac
 
-filesum=`${VERIFEXE} "$MYFILE" | cut -f1 -d\ `
+filesum=`${VERIFYEXE} "$MYFILE" | cut -f1 -d\ `
 exec test "$filesum" = "$MYSUM"
 
