@@ -1,0 +1,14 @@
+Source: obs-service-verify-file
+Maintainer: Hib Eris <hib@hiberis.nl>
+Section: devel
+Priority: extra
+Build-Depends: debhelper (>= 7)
+Standards-Version: 3.9.6
+Homepage:  https://github.com/openSUSE/obs-service-verify_file
+
+Package: obs-service-verify-file
+Architecture: all
+Description: An OBS source service: file verification
+ This is a source service for openSUSE Build Service.
+ .
+ It allows to verify a file with a given sha256sum
